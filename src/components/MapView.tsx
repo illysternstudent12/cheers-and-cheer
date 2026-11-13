@@ -71,17 +71,25 @@ export function MapView({ rows, center, zoom, selected, hovered, origin, onSelec
       touchZoom: interactive,
       keyboard: interactive,
     })
-    let errors = 0
-    const primary = L.tileLayer(PRIMARY.url, { attribution: PRIMARY.attribution, maxZoom: 19 })
-    primary.on('tileerror', () => {
-      errors += 1
-      if (errors === 3) {
-        m.removeLayer(primary)
-        L.tileLayer(FALLBACK.url, { attribution: FALLBACK.attribution, maxZoom: 19 }).addTo(m)
-        el.current?.classList.add('mapview-osm')
-      }
-    })
-    primary.addTo(m)
+    const useFallback = () => {
+      L.tileLayer(FALLBACK.url, { attribution: FALLBACK.attribution, maxZoom: 19 }).addTo(m)
+      el.current?.classList.add('mapview-osm')
+    }
+    // Stadia's keyless tiles only work on localhost; elsewhere it serves a
+    // "401" picture as a normal tile, so go straight to the fallback.
+    if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) useFallback()
+    else {
+      let errors = 0
+      const primary = L.tileLayer(PRIMARY.url, { attribution: PRIMARY.attribution, maxZoom: 19 })
+      primary.on('tileerror', () => {
+        errors += 1
+        if (errors === 3) {
+          m.removeLayer(primary)
+          useFallback()
+        }
+      })
+      primary.addTo(m)
+    }
     if (interactive) L.control.zoom({ position: 'bottomright' }).addTo(m)
     layer.current = L.layerGroup().addTo(m)
     map.current = m
