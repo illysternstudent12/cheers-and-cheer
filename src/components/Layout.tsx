@@ -8,6 +8,7 @@ import { usePrefs } from '../state/prefs'
 import { IconCalendar, IconChevronDown, IconHome, IconPin, IconStar, IconTicket } from './Icons'
 import { Toasts } from './Social'
 import { useSession } from '../state/session'
+import { STATIC_SITE } from '../api/client'
 
 export function Wordmark({ small = false }: { small?: boolean }) {
   return (
@@ -281,7 +282,10 @@ export function Layout() {
           </div>
           <p className="sitefoot-note">
             {DEMO_NOTICE} Team crests are generic placeholders, not official marks. Venue names are illustrative, not real
-            partners. Bookings, RSVPs and venue confirmations you make are real and stored in this app’s database.
+            partners.{' '}
+            {STATIC_SITE
+              ? 'This online preview runs entirely in your browser: accounts, bookings and RSVPs you make are saved only on this device and are not shared with anyone else.'
+              : 'Bookings, RSVPs and venue confirmations you make are real and stored in this app’s database.'}
           </p>
         </div>
       </footer>

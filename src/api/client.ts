@@ -7,7 +7,17 @@ export class ApiError extends Error {
   }
 }
 
+/** The GitHub Pages build has no server: the API runs inside the visitor's browser instead. */
+export const STATIC_SITE = import.meta.env.MODE === 'pages'
+
 export async function api<T = unknown>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', path: string, body?: unknown): Promise<T> {
+  if (STATIC_SITE) {
+    const { request } = await import('virtual:browser-api')
+    const out = await request(method, path, body)
+    const data = (out.data ?? {}) as { error?: string }
+    if (out.status >= 400) throw new ApiError(out.status, data.error ?? 'Something went wrong.')
+    return out.data as T
+  }
   let res: Response
   try {
     res = await fetch(`/api${path}`, {

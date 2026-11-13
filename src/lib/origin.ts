@@ -7,6 +7,9 @@ export interface Origin extends LatLng {
   gps: boolean
 }
 
+/** An absolute link to a page of this site (works under the GitHub Pages sub-path too). */
+export const siteUrl = (path: string) => location.origin + import.meta.env.BASE_URL.replace(/\/$/, '') + path
+
 /** Where distances are measured from: the device if it's in the chosen city, else the city centre. */
 export function useOrigin(): Origin {
   const { city, here } = usePrefs()

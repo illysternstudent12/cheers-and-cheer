@@ -25,7 +25,7 @@ export default function App() {
   return (
     <PrefsProvider>
       <SessionProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || undefined}>
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<Home />} />

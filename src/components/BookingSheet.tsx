@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { siteUrl } from '../lib/origin'
 import { Link, useNavigate } from 'react-router-dom'
 import { api, type Booking, type SlotPlanResponse } from '../api/client'
 import { matchTitle } from '../lib/match'
@@ -224,7 +225,7 @@ export function BookingSheet({ open, onClose, venue, match }: { open: boolean; o
       {step === 'done' && booking && (
         <div className="bk-done">
           <div className="ticket-mini">
-            <QR value={`${location.origin}/checkin/${booking.code}`} size={150} />
+            <QR value={siteUrl(`/checkin/${booking.code}`)} size={150} />
             <div>
               <p className="ticket-code">{booking.code}</p>
               <p>

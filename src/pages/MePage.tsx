@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { siteUrl } from '../lib/origin'
 import { Link, Navigate } from 'react-router-dom'
 import { api, type Booking, type Invite, type Party } from '../api/client'
 import { VenueCard } from '../components/VenueCard'
@@ -118,7 +119,7 @@ export function MePage() {
             <div className="grid-cards">
               {upcoming.map((b) => (
                 <Link key={b.code} to={`/ticket/${b.code}`} className="bk-card">
-                  <QR value={`${location.origin}/checkin/${b.code}`} size={84} />
+                  <QR value={siteUrl(`/checkin/${b.code}`)} size={84} />
                   <div className="bk-card-body">
                     <p className="bk-card-when">
                       {relativeDay(new Date(b.matchStart), now)} · arrive {fmtTime(new Date(b.arriveAt))}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { siteUrl } from '../lib/origin'
 import { Link, useParams } from 'react-router-dom'
 import { api, type Booking } from '../api/client'
 import { Roundel } from '../components/Badges'
@@ -73,7 +74,7 @@ export function TicketPage() {
         <div className="ticket-tear" aria-hidden="true" />
         <div className="ticket-body">
           <div className="ticket-qr">
-            {b.status === 'confirmed' ? <QR value={`${location.origin}/checkin/${b.code}`} size={196} /> : <div className="ticket-stamp">{STATUS[b.status]}</div>}
+            {b.status === 'confirmed' ? <QR value={siteUrl(`/checkin/${b.code}`)} size={196} /> : <div className="ticket-stamp">{STATUS[b.status]}</div>}
             <p className="ticket-code" aria-label={`Booking code ${b.code.split('').join(' ')}`}>
               {b.code}
             </p>

@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react'
+import { siteUrl } from '../lib/origin'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, type Party } from '../api/client'
 import { Sheet } from '../components/Sheet'
@@ -36,7 +37,7 @@ export function PartyPage() {
   const v = getVenue(p.venueId)
   const m = getMatch(p.matchId)
   const start = new Date(p.matchStart)
-  const url = `${location.origin}/party/${p.slug}`
+  const url = siteUrl(`/party/${p.slug}`)
 
   const act = (path: string, msg: string) =>
     authed(async () => {
