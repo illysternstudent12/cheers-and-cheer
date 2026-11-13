@@ -124,3 +124,16 @@ src/
 - **Email:** there is no email delivery. Invitations appear in the invitee's account when they sign in with that email, and the shareable party link works for anyone.
 - **QR scanning in the dashboard:** uses the browser's `BarcodeDetector` (Chrome on Android, for example). Any phone camera can also open the ticket's QR link, which lands on `/checkin/CODE` and checks the guest in for signed-in venue staff. Typing the 6-character code always works.
 - **Payments:** deliberately out of scope for the MVP.
+
+## Online preview (GitHub Pages)
+
+Live at **https://illysternstudent12.github.io/cheers-and-cheer/**. To publish changes: `npm run deploy`.
+
+GitHub Pages can't run a server, so this build (`npm run build:pages`, i.e. `vite build --mode pages`)
+runs the real server code (`server/app.ts`, `db.ts`, `seed.ts`) inside the visitor's browser. It uses
+sql.js (SQLite compiled to WebAssembly) and small stand-ins for Express and `node:crypto` in `browser/`.
+Everything works, including accounts, bookings, QR tickets, watch parties and the owner dashboard, but
+each visitor gets a private copy of the demo database, saved in their own browser. Nothing is shared
+between visitors, and the copy resets after 12 hours because the schedule is relative to "now". The
+footer says so on that site. Off localhost the map uses darkened OpenStreetMap tiles, since Stadia's
+keyless tiles only work on localhost.
