@@ -1,0 +1,703 @@
+/* =====================================================================
+   Cheers & Cheer: buttons & controls, "enamel & hairline"
+   Vintage pub signage: flat enamel colour, fine aged-brass rules,
+   letterspaced condensed caps. Brass is a line, never a slab.
+     · Primary     burgundy enamel pill, brass double rule, ◆ ornaments
+     · Secondary   no fill, brass double hairline
+     · Booking     burgundy pill body + squared brass stub with an arrow
+     · Chips       dark label, letterspaced caps → cream enamel when on
+     · Toggles     dark track, cream enamel plate slides across
+     · Navigation  brass lettering with a small lamp dot beneath
+   Loaded last so it governs every page (Batches 1-4).
+   ===================================================================== */
+:root {
+  --enamel: linear-gradient(180deg, #8d2734 0%, #771f2b 55%, #6a1a25 100%);
+  --enamel-hi: linear-gradient(180deg, #9c2d3b 0%, #842331 55%, #761e2a 100%);
+  --enamel-cream: linear-gradient(180deg, #f6eddc 0%, #ece0c8 100%);
+  --hair: rgba(201, 164, 92, 0.62);
+  --hair-soft: rgba(201, 164, 92, 0.3);
+  --hair-hi: #e2c07a;
+  --gloss: inset 0 1px 0 rgba(255, 225, 215, 0.2);
+  --ink-hair: rgba(36, 20, 15, 0.5);
+  --press: cubic-bezier(0.3, 0.7, 0.4, 1);
+  --diamond: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M5 0 10 5 5 10 0 5Z' fill='%23d4b06a'/%3E%3C/svg%3E");
+  --arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15M13 6l6 6-6 6'/%3E%3C/svg%3E");
+}
+
+/* ============================== base ============================== */
+.btn {
+  position: relative;
+  isolation: isolate;
+  min-height: 48px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 0.16s var(--press),
+    box-shadow 0.3s var(--ease),
+    background 0.3s,
+    color 0.25s;
+}
+.btn::before {
+  /* the inner hairline of the double rule */
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.3s;
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--hair-hi);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: saturate(0.4);
+}
+.btn-sm {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 14.5px;
+  letter-spacing: 0.12em;
+}
+.btn-xs {
+  min-height: 32px;
+  padding: 0 13px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  border-radius: 999px;
+}
+.btn-xs::before {
+  inset: 2px;
+}
+.vcard-actions .btn {
+  min-height: 44px;
+  font-size: 15px;
+}
+
+/* ================= primary · burgundy enamel, brass rule ============ */
+.btn-primary,
+.btn-wine {
+  background: var(--enamel);
+  color: #f6ead4;
+  text-shadow: 0 1px 0 rgba(40, 6, 12, 0.5);
+  box-shadow:
+    var(--gloss),
+    0 0 0 1px var(--hair),
+    0 10px 20px -12px rgba(0, 0, 0, 0.85);
+}
+.btn-primary::before,
+.btn-wine::before {
+  border-color: rgba(226, 192, 122, 0.45);
+}
+/* ◆ ornaments either side of the label, on full-size primaries only */
+.btn-primary:not(.btn-sm):not(.btn-xs) {
+  padding: 0 38px;
+}
+.btn-primary:not(.btn-sm):not(.btn-xs)::after {
+  content: '';
+  position: absolute;
+  inset: 0 16px;
+  background:
+    var(--diamond) left center / 6px 6px no-repeat,
+    var(--diamond) right center / 6px 6px no-repeat;
+  opacity: 0.75;
+  pointer-events: none;
+  transition:
+    opacity 0.3s,
+    inset 0.35s var(--ease);
+}
+.btn-primary:hover:not(:disabled),
+.btn-wine:hover:not(:disabled) {
+  background: var(--enamel-hi);
+  color: #fff6e6;
+  box-shadow:
+    var(--gloss),
+    0 0 0 1px var(--hair-hi),
+    0 12px 24px -12px rgba(0, 0, 0, 0.9),
+    0 0 22px -8px rgba(226, 192, 122, 0.45);
+}
+.btn-primary:hover:not(:disabled)::before,
+.btn-wine:hover:not(:disabled)::before {
+  border-color: var(--hair-hi);
+}
+.btn-primary:hover:not(:disabled)::after {
+  opacity: 1;
+  inset: 0 13px;
+}
+.btn-primary:active:not(:disabled),
+.btn-wine:active:not(:disabled) {
+  box-shadow:
+    inset 0 2px 6px rgba(30, 4, 8, 0.55),
+    0 0 0 1px var(--hair),
+    0 4px 10px -8px rgba(0, 0, 0, 0.8);
+}
+
+/* =================== secondary · brass double hairline ============== */
+.btn-ghost {
+  background: transparent;
+  color: var(--cream);
+  border: 0;
+  box-shadow: 0 0 0 1px var(--hair);
+}
+.btn-ghost::before {
+  border-color: var(--hair-soft);
+}
+.btn-ghost:hover:not(:disabled) {
+  color: var(--hair-hi);
+  background: rgba(201, 164, 92, 0.08);
+  border-color: transparent;
+  box-shadow: 0 0 0 1px var(--hair-hi);
+}
+.btn-ghost:hover:not(:disabled)::before {
+  border-color: rgba(226, 192, 122, 0.6);
+}
+.btn-ghost:active:not(:disabled) {
+  background: rgba(201, 164, 92, 0.14);
+}
+
+/* on cream paper: the same outline, drawn in ink */
+.btn-ink {
+  background: transparent;
+  color: var(--ink);
+  border: 0;
+  box-shadow: 0 0 0 1px var(--ink-hair);
+}
+.btn-ink::before {
+  border-color: rgba(36, 20, 15, 0.2);
+}
+.btn-ink:hover:not(:disabled) {
+  background: rgba(36, 20, 15, 0.06);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+.btn-ink:hover:not(:disabled)::before {
+  border-color: rgba(36, 20, 15, 0.45);
+}
+
+/* ==================== danger · oxblood enamel / outline ============= */
+.btn-danger {
+  background: linear-gradient(180deg, #a3322d 0%, #8a2824 100%);
+  color: #fbeee0;
+  box-shadow:
+    var(--gloss),
+    0 0 0 1px rgba(234, 165, 156, 0.55),
+    0 10px 18px -12px rgba(0, 0, 0, 0.85);
+}
+.btn-danger::before {
+  border-color: rgba(250, 210, 200, 0.35);
+}
+.btn-danger:hover:not(:disabled) {
+  background: linear-gradient(180deg, #b43a34 0%, #972d28 100%);
+}
+.btn-ghost.btn-danger-ghost {
+  color: #eaa59c;
+  box-shadow: 0 0 0 1px rgba(234, 165, 156, 0.5);
+}
+.btn-ghost.btn-danger-ghost::before {
+  border-color: rgba(234, 165, 156, 0.22);
+}
+.btn-ghost.btn-danger-ghost:hover:not(:disabled) {
+  color: #f6c4bc;
+  background: rgba(234, 165, 156, 0.08);
+  box-shadow: 0 0 0 1px rgba(234, 165, 156, 0.85);
+}
+
+/* ============ booking · enamel pill body with a brass stub =========== */
+.btn-book {
+  --stub: 52px;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 calc(var(--stub) + 18px) 0 30px;
+  border-radius: 999px 10px 10px 999px;
+  font-size: 17px;
+  letter-spacing: 0.15em;
+  color: #f6ead4;
+  text-shadow: 0 1px 0 rgba(40, 6, 12, 0.5);
+  background:
+    /* perforation at the seam */
+    linear-gradient(180deg, rgba(246, 234, 212, 0.75) 50%, transparent 0) right var(--stub) top 6px / 1px 6px repeat-y,
+    /* the brass stub */
+    linear-gradient(180deg, #e4c57f, #c9a45c 60%, #b38f49) right / var(--stub) 100% no-repeat,
+    var(--enamel);
+  box-shadow:
+    var(--gloss),
+    0 0 0 1px var(--hair),
+    0 12px 22px -12px rgba(0, 0, 0, 0.85);
+}
+.btn-book::before {
+  /* inner rule around the body only */
+  inset: 3px calc(var(--stub) + 4px) 3px 3px;
+  border-radius: 999px 4px 4px 999px;
+  border-color: rgba(226, 192, 122, 0.45);
+}
+.btn-book::after {
+  content: '';
+  position: absolute;
+  right: calc(var(--stub) / 2 - 9px);
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  translate: 0 -50%;
+  background: #3a1016;
+  -webkit-mask: var(--arrow) center / contain no-repeat;
+  mask: var(--arrow) center / contain no-repeat;
+  transition: translate 0.3s var(--spring);
+}
+.btn-book:hover:not(:disabled) {
+  color: #fff6e6;
+  background:
+    linear-gradient(180deg, rgba(246, 234, 212, 0.9) 50%, transparent 0) right var(--stub) top 6px / 1px 6px repeat-y,
+    linear-gradient(180deg, #efd28f, #d6b46b 60%, #bf9a52) right / var(--stub) 100% no-repeat,
+    var(--enamel-hi);
+  box-shadow:
+    var(--gloss),
+    0 0 0 1px var(--hair-hi),
+    0 14px 26px -12px rgba(0, 0, 0, 0.9),
+    0 0 24px -8px rgba(226, 192, 122, 0.5);
+}
+.btn-book:hover:not(:disabled)::before {
+  border-color: var(--hair-hi);
+}
+.btn-book:hover:not(:disabled)::after {
+  translate: 4px -50%;
+}
+/* a table you already hold: cream enamel, burgundy stub */
+.btn-book-held {
+  color: var(--wine);
+  text-shadow: none;
+  background:
+    linear-gradient(180deg, rgba(246, 234, 212, 0.75) 50%, transparent 0) right var(--stub) top 6px / 1px 6px repeat-y,
+    linear-gradient(180deg, #8d2734, #6a1a25) right / var(--stub) 100% no-repeat,
+    var(--enamel-cream);
+}
+.btn-book-held::before {
+  border-color: rgba(122, 31, 43, 0.3);
+}
+.btn-book-held::after {
+  background: #f1dfb2;
+}
+.btn-book-held:hover:not(:disabled) {
+  color: var(--wine-hi);
+  background:
+    linear-gradient(180deg, rgba(246, 234, 212, 0.9) 50%, transparent 0) right var(--stub) top 6px / 1px 6px repeat-y,
+    linear-gradient(180deg, #9c2d3b, #761e2a) right / var(--stub) 100% no-repeat,
+    var(--enamel-cream);
+}
+.btn-book-held:hover:not(:disabled)::before {
+  border-color: rgba(122, 31, 43, 0.55);
+}
+.vcard-actions .btn-book {
+  --stub: 44px;
+  min-height: 44px;
+  font-size: 15px;
+  padding-left: 24px;
+}
+
+/* ============== chips · dark labels, cream enamel when on ============ */
+.chip,
+.follow,
+.chip-select {
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 7px;
+  font-family: var(--font-cond);
+  font-weight: 600;
+  font-size: 14.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  background: rgba(16, 11, 8, 0.72);
+  box-shadow: inset 0 0 0 1px var(--hair-soft);
+  transition:
+    color 0.2s,
+    background 0.25s,
+    box-shadow 0.25s,
+    transform 0.14s var(--press);
+}
+.chip svg,
+.follow svg {
+  color: var(--brass);
+}
+.chip:hover:not(:disabled),
+.follow:hover {
+  color: var(--cream);
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--hair);
+}
+.chip:active:not(:disabled),
+.follow:active {
+  transform: translateY(1px);
+}
+.chip.on,
+.follow.on {
+  color: var(--wine);
+  font-weight: 700;
+  background: var(--enamel-cream);
+  box-shadow:
+    inset 0 0 0 2px #f2e7d2,
+    inset 0 0 0 3px rgba(122, 31, 43, 0.35),
+    0 0 0 1px rgba(201, 164, 92, 0.6),
+    0 6px 14px -8px rgba(0, 0, 0, 0.8);
+}
+.chip.on svg,
+.follow.on svg {
+  color: var(--wine);
+}
+.chip-n {
+  font-family: var(--font-cond);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 5px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 4px;
+  background: rgba(201, 164, 92, 0.12);
+  color: var(--muted);
+}
+.chip.on .chip-n {
+  background: rgba(122, 31, 43, 0.12);
+  color: var(--wine);
+}
+.chip:disabled {
+  opacity: 0.38;
+}
+.chip-ghost {
+  height: 32px;
+  font-size: 13.5px;
+}
+.follow {
+  height: 32px;
+  font-size: 13.5px;
+  padding: 0 12px;
+}
+.chip-live:not(.on) .live-dot {
+  background: var(--onair);
+  box-shadow: 0 0 8px var(--onair-glow);
+  animation: none;
+}
+.chip-clear {
+  color: var(--brass-hi);
+}
+.chip-select select {
+  font-family: var(--font-cond);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* removable filter tag: small burgundy enamel label */
+.tag {
+  height: 30px;
+  padding: 0 9px 0 13px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--enamel);
+  color: #f6ead4;
+  font-family: var(--font-cond);
+  font-size: 13.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow:
+    var(--gloss),
+    0 0 0 1px var(--hair);
+  transition:
+    background 0.2s,
+    transform 0.14s var(--press);
+}
+.tag:hover {
+  background: var(--enamel-hi);
+}
+.tag:active {
+  transform: scale(0.97);
+}
+
+/* the games day strip joins the same family (the TV-wall remote lives in bar.css) */
+.day.on {
+  background: var(--enamel-cream);
+  border-color: rgba(201, 164, 92, 0.6);
+  color: var(--ink);
+  box-shadow:
+    inset 0 0 0 2px #f2e7d2,
+    inset 0 0 0 3px rgba(122, 31, 43, 0.3);
+}
+.day.on .day-dow {
+  color: var(--wine);
+}
+
+/* ======================= text links · brass ========================= */
+.see-all {
+  height: 32px;
+  padding: 0 8px 0 14px;
+  border-radius: 999px;
+  font-family: var(--font-cond);
+  font-size: 14.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass-hi);
+  box-shadow: inset 0 0 0 1px var(--hair-soft);
+  transition:
+    gap 0.25s var(--ease),
+    background 0.25s,
+    box-shadow 0.25s;
+}
+.see-all:hover {
+  background: rgba(201, 164, 92, 0.08);
+  box-shadow: inset 0 0 0 1px var(--hair);
+}
+.see-all svg {
+  transition: translate 0.25s var(--spring);
+}
+.see-all:hover svg {
+  translate: 2px 0;
+}
+.linkish {
+  font-family: var(--font-cond);
+  font-size: 14.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass-hi);
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.3s var(--ease);
+}
+.linkish:hover {
+  text-decoration: none;
+  background-size: 100% 1px;
+}
+
+/* ===================== icon buttons · hairline rings ================= */
+.icon-btn {
+  color: var(--text-2);
+  background: transparent;
+  box-shadow:
+    inset 0 0 0 1px var(--hair-soft),
+    inset 0 0 0 3px transparent;
+  transition:
+    color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.14s var(--press);
+}
+.icon-btn:hover {
+  color: var(--brass-hi);
+  background: rgba(201, 164, 92, 0.08);
+  box-shadow: inset 0 0 0 1px var(--hair);
+}
+.icon-btn:active {
+  transform: scale(0.93);
+}
+
+/* ============== toggles · dark track, cream enamel plate ============= */
+.seg,
+.viewswitch {
+  background: rgba(12, 8, 6, 0.85);
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--hair-soft);
+}
+.viewswitch {
+  box-shadow:
+    inset 0 0 0 1px var(--hair),
+    0 18px 30px -10px rgba(0, 0, 0, 0.9);
+}
+.seg a {
+  font-family: var(--font-cond);
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    background 0.3s var(--ease),
+    color 0.25s,
+    box-shadow 0.3s;
+}
+.seg a:hover:not([aria-selected='true']) {
+  color: var(--cream);
+}
+.seg a[aria-selected='true'],
+.viewswitch-thumb {
+  background: var(--enamel-cream);
+  color: var(--wine);
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 31, 43, 0.22),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.viewswitch button[aria-selected='true'] {
+  color: var(--wine);
+}
+
+/* ====================== "I'm going": a pledge ======================== */
+.going {
+  font-family: var(--font-cond);
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 0;
+  color: var(--cream);
+  background: transparent;
+  box-shadow: 0 0 0 1px var(--hair);
+  transition:
+    background 0.3s,
+    color 0.25s,
+    box-shadow 0.3s,
+    transform 0.15s var(--press);
+}
+.going:hover {
+  color: var(--brass-hi);
+  background: rgba(201, 164, 92, 0.08);
+  box-shadow: 0 0 0 1px var(--hair-hi);
+}
+.going-check {
+  background: transparent;
+  color: var(--brass);
+  box-shadow: inset 0 0 0 1px var(--hair);
+  font-family: var(--font-body);
+}
+.going.on {
+  background: var(--enamel);
+  color: #f6ead4;
+  box-shadow:
+    var(--gloss),
+    0 0 0 1px var(--hair-hi),
+    0 0 20px -8px rgba(226, 192, 122, 0.45);
+}
+.going.on .going-check {
+  background: linear-gradient(180deg, #e4c57f, #c49c52);
+  color: #3a1016;
+  box-shadow: none;
+}
+/* on the cream focus card */
+.focus .going {
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink-hair);
+}
+.focus .going:hover {
+  background: rgba(36, 20, 15, 0.06);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+.focus .going-check {
+  color: var(--wine);
+  box-shadow: inset 0 0 0 1px rgba(122, 31, 43, 0.45);
+}
+.focus .going.on {
+  color: #f6ead4;
+  background: var(--enamel);
+  box-shadow:
+    var(--gloss),
+    0 0 0 1px rgba(122, 31, 43, 0.8);
+}
+.focus .linkish,
+.feat .linkish {
+  color: var(--wine);
+}
+
+/* ===================== booking sheet controls ======================= */
+.stepper button {
+  border: 0;
+  font-family: var(--font-cond);
+  color: var(--brass-hi);
+  background: transparent;
+  box-shadow:
+    inset 0 0 0 1px var(--hair),
+    inset 0 0 0 4px transparent,
+    inset 0 0 0 5px var(--hair-soft);
+  transition:
+    transform 0.14s var(--press),
+    background 0.25s,
+    box-shadow 0.25s,
+    color 0.2s;
+}
+.stepper button:hover:not(:disabled) {
+  color: #f6dea4;
+  background: rgba(201, 164, 92, 0.08);
+  box-shadow:
+    inset 0 0 0 1px var(--hair-hi),
+    inset 0 0 0 4px transparent,
+    inset 0 0 0 5px var(--hair);
+}
+.stepper button:active:not(:disabled) {
+  transform: scale(0.92);
+}
+.slot {
+  border: 0;
+  border-radius: 10px;
+  background: rgba(16, 11, 8, 0.72);
+  box-shadow: inset 0 0 0 1px var(--hair-soft);
+}
+.slot:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--hair);
+}
+.slot.on {
+  background: var(--enamel-cream);
+  box-shadow:
+    inset 0 0 0 3px #f2e7d2,
+    inset 0 0 0 4px rgba(122, 31, 43, 0.3),
+    0 0 0 1px var(--hair);
+}
+.slot.on b {
+  color: var(--wine);
+}
+.slot.on span {
+  color: var(--ink-2);
+}
+.slot.on small {
+  color: var(--wine);
+}
+
+/* ===================== navigation ==================================
+   The top bar lives in header.css. */
+/* mobile tab bar: a lamp dot over the active tab */
+.tab {
+  position: relative;
+  letter-spacing: 0.1em;
+  transition: color 0.25s;
+}
+.tab::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: #f1d48f;
+  box-shadow:
+    0 0 6px 1px rgba(241, 212, 143, 0.8),
+    0 0 14px 4px rgba(226, 192, 122, 0.3);
+  opacity: 0;
+  scale: 0.3;
+  transition:
+    opacity 0.3s,
+    scale 0.35s var(--spring);
+}
+.tab.active {
+  color: var(--brass-hi);
+}
+.tab.active::before {
+  opacity: 1;
+  scale: 1;
+}
+.tab.active svg {
+  transform: translateY(2px);
+}
+.tab:active svg {
+  transform: scale(0.9);
+}
